@@ -1,0 +1,32 @@
+* Picking a monster: I think this would be best done by hashing, say md5, the order number, then turning that into an int, and modding it by the number of monsters (n). This'll give us a reliable and random-ish 0-(n-1) number which we can use to always pick the mth monster for this order.
+
+* Picking a monster position: Similar to the above, we have other choices of values to hash for reliable and pseudo-random values. Their name, address components, and order creation date all won't change so we can use any of these to pick a monster position. The trick is that by using different values to hash for each item, we'll avoid duplicating the same set of (monster, location, path) between orders. Additionally, all of these values could be cached by saving them to the order record in the database.
+
+* Picking a path: Again, we should choose a unique item from the list above to have a reliable path.
+
+* Geocoding the delivery endpoints: I've used Google's geocoder in JS before and it's quite easy to do. PHP can be used to load and parse their XML geocoder data format. We can use this data with an established baseline lat/long boundary definition for the map image to roughly place the endpoints.
+
+* Knowing where the current-package-location-dot goes: Since precise accuracy isn't viable given the nature of the path, we can roughly estimate the path by way of using the order placement date, estimated delivery date, and the current date. The calculation is (current time - order time) / (delivery time - order time) = percentage complete (n). The danger here is in deliveries that are held up unpredictably. Things like international Customs could really muck up this calculation. At the very least the value of n would need to be capped between 0 and 1 inclusively. If there's any sort of reliable API from the shipping vendors that accurately reflects changes to delivery estimates, this could be used to alleviate the situation by dynamically changing the value for (delivery time) as the info becomes available.
+
+Now, the tricky part: the path. My first inclination was to draw this dynamically. However, for this project I'd use PHP because it's what you use and because it's what I'm strongest in. My journeys into PHP's drawing code have been limited in the past but successful so I assumed I'd have no trouble drawing a dashed line along a path.
+
+If only there were a path drawing routine in GD!
+
+It seems like the best candidate is imagearc(), but this only draws segments of an ellipse so multiple arcs would be needed every time. I did a little bit of math to figure out how feasible lining up arbitrary endpoints of arc segments would be and... it quickly became time for a new plan.
+
+So my solution is to use precalculated paths. By making a PNG for each possible path such that:
+
+* the image has a large enough canvas size to support a curlicue or two
+* the path is centered in the file with its endpoints flush with the left and right edges
+* the endpoints both land 50% from the top and bottom edges of the canvas
+* (attached is an example - Example Path.png)
+
+By loading the map and the randomly selected path png (imagecreatefrompng()) and knowing
+
+* how to determine where the path endpoints are in the path image
+* where the endpoints should be on the map
+* the angle between the endpoints
+
+We can use imagerotate() to render the path on top of the map. This could then be served as a single image file, upon which the monster and current position dot can be drawn client-side.
+
+The current position dot is a bit tricky though. As stated above, we know the percentage complete the package should be along its way, but how does that translate to an arbitrarily curving line rendered into a PNG? My solution is to precalculate a sprite file per path, where each file has N sprite frames. I would then round the percentage to the nearest frame in the timeline. This could then be layered onto the map either server-side or client-side.
