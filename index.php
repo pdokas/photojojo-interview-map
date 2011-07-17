@@ -35,6 +35,31 @@ $orders = array(
 	)
 );
 
+/* Setup basic view data */
+
+$view_data = array();
+
+// Setup order ID
+if (isset($_GET['order'])) {
+	$view_data['order'] = $_GET['order'];
+}
+else {
+	$view_data['order'] = rand(0, count($orders) - 1);
+}
+
+// Cache order data object
+$view_data['order_data'] = $orders[$view_data['order']];
+
+// Setup monster ID
+if (isset($_GET['monster'])) {
+	$view_data['monster'] = $_GET['monster'];
+}
+else {
+	$num_monsters = count(glob('img/monsters/*.png'));
+	
+	$view_data['monster'] = base_convert($view_data['order_data']['id'], 32, 10) % $num_monsters;
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -44,6 +69,6 @@ $orders = array(
 </head>
 
 <body>
-	
+	<?php echo $view_data['order_data']['id']; ?><br />
 </body>
 </html>
