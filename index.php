@@ -49,6 +49,7 @@
 <html>
 <head>
 	<title>Order Status</title>
+	<link rel="stylesheet" href="css/map.css" type="text/css" media="screen" />
 </head>
 
 <body>
