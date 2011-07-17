@@ -30,6 +30,20 @@
 		return "img/monsters/monster{$monster_id}.png";
 	}
 
+	function getMonsterPos() {
+		global $view_data;
+
+		if (isset($_GET['monsterPos'])) {
+			$pos_id = $_GET['monsterPos'];
+		}
+		else {
+			// Select random position
+			$pos_id = rand(0, 3);
+		}
+
+		return "monsterPosition{$pos_id}";
+	}
+
 	function getPath() {
 		global $view_data;
 

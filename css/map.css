@@ -7,3 +7,23 @@ img {
 	left: 0;
 	top: 0;
 }
+
+	.monsterPosition0 {
+		left: 157px;
+		top: 57px;
+	}
+	
+	.monsterPosition1 {
+		left: 266px;
+		top: 265px;
+	}
+	
+	.monsterPosition2 {
+		left: 752px;
+		top: 109px;
+	}
+	
+	.monsterPosition3 {
+		left: 607px;
+		top: 278px;
+	}
