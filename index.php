@@ -60,6 +60,16 @@ else {
 	$view_data['monster'] = base_convert($view_data['order_data']['id'], 32, 10) % $num_monsters;
 }
 
+// Setup path ID
+if (isset($_GET['path'])) {
+	$view_data['path'] = $_GET['path'];
+}
+else {
+	$num_paths = count(glob('img/paths/*.png'));
+
+	$view_data['path'] = base_convert($view_data['order_data']['name'], 32, 10) % $num_paths;
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -69,6 +79,7 @@ else {
 </head>
 
 <body>
-	<?php echo $view_data['order_data']['id']; ?><br />
+	<?php echo $view_data['monster']; ?><br />
+	<?php echo $view_data['path']; ?><br />
 </body>
 </html>
