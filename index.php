@@ -42,6 +42,21 @@
 		)
 	);
 	
+	$map_dimensions = array(
+		'padding' => array(
+			'top'    => 54,
+			'right'  => 97,
+			'bottom' => 55,
+			'left'   => 154
+		)
+		'latlng'  => array(
+			'top'    => 50,
+			'right'  => -67.1,
+			'bottom' => 26.2,
+			'left'   => -124.3
+		)
+	);
+	
 	// Populate view data
 	$view_data                = array();
 	$view_data['order_data']  = getOrderData();
