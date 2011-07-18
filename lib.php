@@ -59,5 +59,17 @@
 
 		return "img/paths/path{$path_id}.png";
 	}
+	
+	function computePathAngle($end) {
+		global $map_dimensions;
+		
+		$start = $map_dimensions['warehouse'];
+		
+		$opposite_side = $end['lat'] - $start['lat'];
+		$adjacent_side = $end['lng'] - $start['lng'];
+		$angle         = abs(rad2deg(tan($opposite_side / $adjacent_side)));
+		
+		return $angle;
+	}
 
 ?>
