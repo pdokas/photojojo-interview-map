@@ -42,29 +42,19 @@
 		)
 	);
 	
-	$map_dimensions = array(
-		'padding' => array(
-			'top'    => 54,
-			'right'  => 888,
-			'bottom' => 443,
-			'left'   => 154
-		),
-		'latlng'  => array(
-			'top'    => 50,
-			'right'  => -67.1,
-			'bottom' => 26.2,
-			'left'   => -124.3
-		),
-		'warehouse' => array('lng' => -85.3, 'lat' => 38.8)
+	$warehouse = array(
+		'lng' => -85.3,
+		'lat' => 38.8
 	);
 	
 	// Populate view data
 	$view_data                = array();
-	$view_data['order_data']  = getOrderData();
+	$view_data['order']       = getOrderData();
 	$view_data['monster']     = getMonster();
 	$view_data['monster_pos'] = getMonsterPos();
 	$view_data['path']        = getPath();
-	$view_data['path_angle']  = computePathAngle($view_data['order_data']['geocode']);
+	$view_data['path_start']  = "{$warehouse['lng']},{$warehouse['lat']}";
+	$view_data['path_end']    = "{$view_data['order']['geocode']['lng']},{$view_data['order']['geocode']['lat']}";
 
 ?>
 
@@ -77,10 +67,10 @@
 
 <body>
 	<p id="debug">
-		Going to: <?php echo $view_data['order_data']['address']; ?>
+		Going to: <?php echo $view_data['order']['address']; ?>
 	</p>
 	<div id="mapHolder">
-		<img src="map.php?angle=<?php echo $view_data['path_angle']; ?>&path=<?php echo $view_data['path']; ?>" />
+		<img src="map.php?start=<?php echo $view_data['path_start']; ?>&amp;end=<?php echo $view_data['path_end']; ?>&amp;path=<?php echo $view_data['path']; ?>" />
 		
 		<img src="<?php echo $view_data['monster']; ?>" class="<?php echo $view_data['monster_pos']; ?>" />
 	</div>

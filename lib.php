@@ -24,7 +24,7 @@
 			// Generate random monster, hashing based on order number
 			$num_monsters = count(glob('img/monsters/*.png'));
 
-			$monster_id = base_convert($view_data['order_data']['id'], 32, 10) % $num_monsters;
+			$monster_id = base_convert($view_data['order']['id'], 32, 10) % $num_monsters;
 		}
 
 		return "img/monsters/monster{$monster_id}.png";
@@ -54,22 +54,10 @@
 			// Generate random path, hashing based on order customer's name
 			$num_paths = count(glob('img/paths/*.png'));
 
-			$path_id = base_convert($view_data['order_data']['name'], 32, 10) % $num_paths;
+			$path_id = base_convert($view_data['order']['name'], 32, 10) % $num_paths;
 		}
 
 		return "img/paths/path{$path_id}.png";
-	}
-	
-	function computePathAngle($end) {
-		global $map_dimensions;
-		
-		$start = $map_dimensions['warehouse'];
-		
-		$opposite_side = $end['lat'] - $start['lat'];
-		$adjacent_side = $end['lng'] - $start['lng'];
-		$angle         = abs(rad2deg(tan($opposite_side / $adjacent_side)));
-		
-		return $angle;
 	}
 
 ?>
