@@ -61,6 +61,9 @@
 	$route_midpoint_px_x = $midpoint_pct_across_map_x * ($map_dimensions['padding']['right'] - $map_dimensions['padding']['left']);
 	$route_midpoint_px_y = $midpoint_pct_across_map_y * ($map_dimensions['padding']['bottom'] - $map_dimensions['padding']['top']);
 	
+	$route_midpoint_px_x += $map_dimensions['padding']['left'] - ($new_path_width / 2);
+	$route_midpoint_px_y += $map_dimensions['padding']['top'] - ($new_path_height / 2);
+	
 	// Layer path onto map
 	imagecopy($map, $resized_path, $route_midpoint_px_x,$route_midpoint_px_y, 0,0, imagesx($resized_path),imagesy($resized_path));
 	
