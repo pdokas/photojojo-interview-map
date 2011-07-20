@@ -2,7 +2,7 @@
 
 	require('lib.php');
 
-	/* Stub Data */
+	// Stub Orders Data
 	$orders = array(
 		array(
 			'id'            => 'NDP-CMIFS',
@@ -42,6 +42,7 @@
 		)
 	);
 	
+	// Stub warehouse location data
 	$warehouse = array(
 		'lng' => -85.3,
 		'lat' => 38.8
